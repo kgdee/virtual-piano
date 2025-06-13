@@ -1,8 +1,5 @@
 const piano = document.getElementById("piano");
 
-// Pattern of black keys: skip black key after E (4) and B (11)
-const hasBlackKey = [true, true, false, true, true, true, false];
-
 document.addEventListener("DOMContentLoaded", function () {
   displayPiano();
 });
@@ -15,31 +12,25 @@ window.addEventListener("error", (event) => {
 
 function displayPiano() {
   const noteNames = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B'];
+  let whiteCount = 0
 
   for (let i = 1, midi = 21; i <= 88; i++, midi++) {
     const noteIndex = midi % 12;
     const octave = Math.floor(midi / 12) - 1;
     const name = noteNames[noteIndex] + octave;
 
-    const key = document.createElement("div");
     const isBlack = [1, 3, 6, 8, 10].includes(noteIndex); // C# D# F# G# A#
 
-    key.className = isBlack ? "black" : "white";
-    key.dataset.note = i;
-    key.onclick = () => playNote(i);
+    if (!isBlack) whiteCount++
 
-    const label = document.createElement("span");
-    label.textContent = name;
-    label.className = "note-label";
-    key.appendChild(label);
-
-    piano.appendChild(key);
-
-    if (isBlack) {
-      const prevWhite = Array.from(piano.children).filter(k => k.classList.contains("white")).length;
-      key.style.left = `${(prevWhite * 40) - 12}px`;
-    }
+    piano.innerHTML += `
+      <div class="${isBlack ? "black" : "white"} key" data-note="${i}" onclick="playNote(${i})"${isBlack ? ` style="left: ${(whiteCount * 40 - 12)}px"` : ""}>
+        <span>${name}</span>
+      </div>
+    `
   }
+  // Scroll to C3 key
+  piano.scrollLeft = 40 * 16
 }
 
 function playNote(index) {

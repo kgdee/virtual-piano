@@ -1,6 +1,6 @@
 /*==================== GOOGLE FONTS ====================*/
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap");
 /*==================== BOOTSTRAP ICONS ====================*/
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css");
 
@@ -32,6 +32,7 @@
   border: none;
   text-decoration: none;
   line-height: 1;
+  user-select: none;
 }
 
 button {
@@ -80,9 +81,10 @@ body {
 }
 
 .app {
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
 }
 
@@ -91,7 +93,7 @@ body {
   padding: 15px 10px;
   text-align: center;
   background-color: var(--purple);
-  margin-bottom: 55px;
+  margin-bottom: 5%;
 }
 
 .header .title {
@@ -105,17 +107,23 @@ main {
 
 .piano {
   position: relative;
-  overflow-y: hidden;
   overflow-x: auto;
+  overflow-y: visible;
   display: flex;
-  height: 215px;
+  padding-bottom: 10px;
+  margin-bottom: 10%;
+}
+
+.piano .key:active {
+  transform: translateY(8px);
+  filter: brightness(80%);
 }
 
 .piano .white {
   position: relative;
   min-width: 40px;
   width: 40px;
-  height: 100%;
+  height: 215px;
   background: white;
   border: 1px solid #333;
 }
@@ -128,7 +136,7 @@ main {
   z-index: 1;
 }
 
-.piano .note-label {
+.piano .key span {
   font-size: 10px;
   font-weight: bold;
   color: #000;
@@ -139,6 +147,6 @@ main {
   pointer-events: none;
 }
 
-.piano .black .note-label {
+.piano .black span {
   color: #fff;
 }

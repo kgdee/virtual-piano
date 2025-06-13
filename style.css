@@ -1,0 +1,144 @@
+/*==================== GOOGLE FONTS ====================*/
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
+/*==================== BOOTSTRAP ICONS ====================*/
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css");
+
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333;
+  --border-color: rgba(0, 0, 0, 0.5);
+  --label-color: rgba(173, 216, 230, 0.5);
+  --red: #f44336;
+  --green: #4caf50;
+  --blue: #3f51b5;
+  --purple: #673ab7;
+  --lightblue: #2196f3;
+}
+
+.dark-theme {
+  --bg-color: #222;
+  --text-color: #eee;
+  --border-color: rgba(255, 255, 255, 0.5);
+  --label-color: rgba(93, 173, 226, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+  text-decoration: none;
+  line-height: 1;
+}
+
+button {
+  cursor: pointer;
+}
+
+.button {
+  display: inline-block;
+  padding: 8px 16px;
+  background: var(--green);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.truncated {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.container {
+  max-width: 1440px;
+  margin: auto;
+}
+
+.app {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.header {
+  width: 100%;
+  padding: 15px 10px;
+  text-align: center;
+  background-color: var(--purple);
+  margin-bottom: 55px;
+}
+
+.header .title {
+  font-family: "Dancing Script", cursive;
+  color: white;
+}
+
+main {
+  padding: 10px;
+}
+
+.piano {
+  position: relative;
+  overflow-y: hidden;
+  overflow-x: auto;
+  display: flex;
+  height: 215px;
+}
+
+.piano .white {
+  position: relative;
+  min-width: 40px;
+  width: 40px;
+  height: 100%;
+  background: white;
+  border: 1px solid #333;
+}
+
+.piano .black {
+  width: 25px;
+  height: 125px;
+  background: black;
+  position: absolute;
+  z-index: 1;
+}
+
+.piano .note-label {
+  font-size: 10px;
+  font-weight: bold;
+  color: #000;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+}
+
+.piano .black .note-label {
+  color: #fff;
+}

@@ -16,7 +16,22 @@
       </div>
       <main>
         <div class="settings">
-          
+          <label class="volume-input">
+            Volume
+            <input type="range" min="0" max="1" step="0.01" oninput="changeVolume(this.value)" />
+          </label>
+          <label class="key-label-toggle">
+            Show label
+            <input type="checkbox" oninput="toggleKeyLabel(this.checked)" />
+          </label>
+          <label class="key-size-input">
+            Key size
+            <select oninput="changeKeySize(this.value)">
+              <option value="40">Small</option>
+              <option value="60" selected>Medium</option>
+              <option value="80">Large</option>
+            </select>
+          </label>
         </div>
         <div class="piano" id="piano"></div>
       </main>

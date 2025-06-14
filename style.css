@@ -105,9 +105,9 @@ main {
 }
 
 .settings {
-  overflow-x: auto;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 15px;
   border: 1px solid var(--border-color);
   border-radius: 5px;
@@ -139,7 +139,7 @@ main {
 }
 
 .piano .key:active {
-  transform: translateY(8px);
+  top: 8px;
   filter: brightness(80%);
 }
 

@@ -7,6 +7,8 @@
     <link rel="icon" href="favicon.png" type="image/x-icon" />
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
     <link rel="stylesheet" href="style.css" />
+    <script src="data.js" defer></script>
+    <script src="music-sheet.js" defer></script>
     <script src="script.js" defer></script>
   </head>
   <body class="dark-theme">
@@ -15,6 +17,18 @@
         <h1 class="title">Kgdee <span>Piano</span></h1>
       </div>
       <main>
+        <label class="music-sheet-input">
+          Music sheet
+          <select oninput="MusicSheet.show(this.value)">
+            <option value="-1">None</option>
+            <option value="0">Twinkle Twinkle Little Star</option>
+            <option value="1">Mary Had a Little Lamb</option>
+            <option value="2">Ode to Joy</option>
+            <option value="3">Happy Birthday</option>
+            <option value="4">Jingle Bells (Chorus)</option>
+          </select>
+        </label>
+        <div class="music-sheet hidden"></div>
         <div class="settings">
           <label class="volume-input">
             Volume

@@ -101,7 +101,47 @@ body {
 }
 
 main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   padding: 10px;
+}
+
+.music-sheet {
+  position: relative;
+  display: flex;
+  gap: 5px;
+  width: 120px;
+  height: 120px;
+  margin: auto;
+}
+
+.music-sheet .page {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 32px);
+  grid-template-rows: repeat(3, 32px);
+  gap: 5px;
+  padding: 5px;
+  background-color: white;
+  transition: 1s;
+}
+
+.music-sheet .page.active {
+  left: 0;
+}
+
+.music-sheet .page .item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+}
+
+.music-sheet .page .item.active {
+  background-color: var(--label-color);
 }
 
 .settings {
@@ -112,7 +152,6 @@ main {
   border: 1px solid var(--border-color);
   border-radius: 5px;
   padding: 10px;
-  margin-bottom: 10px;
 }
 
 .settings > * {
@@ -140,7 +179,7 @@ main {
 
 .piano .key:active {
   top: 8px;
-  filter: brightness(80%);
+  background: linear-gradient(to bottom right, #197fff, #ca1fff);
 }
 
 .piano .white {

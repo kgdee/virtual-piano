@@ -5,59 +5,61 @@ const MusicSheet = (() => {
   let currentNote = 0;
   let currentPage = 1;
 
-  function restore() {
-    currentMusicSheet = -1;
+  function reset() {
     currentNotes = [];
     currentNote = 0;
     currentPage = 1;
+    element.innerHTML = "";
   }
 
-  function show(musicSheetIndex, pageIndex = 0) {
-    if (pageIndex <= 0) restore();
+  function show(musicSheetIndex, page = 1) {
     const isNotAllowed = !musicSheetIndex || musicSheetIndex < 0;
     element.classList.toggle("hidden", isNotAllowed);
     if (isNotAllowed) {
-      element.innerHTML = "";
+      currentMusicSheet = -1;
+      reset();
       return;
     }
 
+    currentPage = page;
+    const isNew = currentMusicSheet !== musicSheetIndex;
+    if (isNew) reset();
     currentMusicSheet = musicSheetIndex;
     const musicSheet = musicSheets[currentMusicSheet];
     currentNotes = musicSheet.notes;
 
-    if (pageIndex > currentNotes.length / 9) {
-      currentPage = Math.floor(currentNotes.length / 9) + 1;
-      return;
-    }
-
     if (musicSheet) {
       element.innerHTML = "";
-      if (pageIndex > 0) createPage(musicSheet, pageIndex - 1, true);
-      createPage(musicSheet, pageIndex);
+      if (currentPage > 1) displayPage(musicSheet, currentPage - 1, true);
+      else if (!isNew) displayPage(musicSheet, Math.floor(currentNotes.length / 9) + 1, true);
+      displayPage(musicSheet, currentPage);
     }
 
     refresh();
   }
 
-  function createPage(musicSheet, pageIndex, isActive = false) {
-    const notes = musicSheet.notes.slice(pageIndex * 9, (pageIndex + 1) * 9);
+  function displayPage(musicSheet, page, isActive = false) {
+    const notes = musicSheet.notes.slice((page - 1) * 9, page * 9);
     element.innerHTML += `
-      <div class="page${isActive ? " active" : ""}" data-index="${pageIndex}">${notes.map((note, i) => `<div class="item" data-index="${i + pageIndex * 9}">${getNoteName(note)}</div>`).join("")}</div>
+      <div class="page${isActive ? " active" : ""}" data-page="${page}">${notes.map((note, i) => `<div class="item" data-index="${i + (page - 1) * 9}" onclick="playNote(${note})">${getNoteName(note, false)}</div>`).join("")}</div>
     `;
 
     if (!isActive) {
       setTimeout(() => {
-        element.querySelector(`.page[data-index="${pageIndex}"]`).classList.add("active");
+        element.querySelector(`.page[data-page="${page}"]`).classList.add("active");
       }, 100);
     }
   }
 
   function refresh() {
-    if (currentNote / 9 >= currentPage) {
-      currentPage = Math.floor((currentNote + 1) / 9) + 1
-      show(currentMusicSheet, currentPage - 1);
+    if (currentNote + 1 > currentNotes.length) {
+      reset();
+      show(currentMusicSheet);
+    } else if ((currentNote + 1) / 9 > currentPage) {
+      const page = Math.floor((currentNote + 1) / 9) + 1;
+      show(currentMusicSheet, page);
     }
-    
+
     const activeNoteEls = element.querySelectorAll(".page .item.active");
     activeNoteEls.forEach((element) => {
       element.classList.remove("active");
@@ -68,18 +70,19 @@ const MusicSheet = (() => {
   function play(noteIndex) {
     if (currentMusicSheet < 0) return;
 
-    if (currentNotes[currentNote] === noteIndex) {
+    if (currentNotes[currentNote] % 12 === noteIndex % 12) {
       currentNote++;
     }
 
     refresh();
   }
 
-  function skip(callback) {
+  function skip() {
     if (currentMusicSheet < 0) return;
 
     const noteIndex = currentNotes[currentNote];
-    if (noteIndex) callback(noteIndex);
+    if (noteIndex) playNote(noteIndex);
+    else refresh();
   }
 
   return { show, play, skip };

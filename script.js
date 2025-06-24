@@ -3,16 +3,18 @@ const volumeInput = document.querySelector(".volume-input input");
 const keyLabelToggle = document.querySelector(".key-label-toggle input");
 const keySizeInput = document.querySelector(".key-size-input select");
 
-let currentVolume = getStoredValue("currentVolume", 0.5);
-let isKeyLabelHidden = getStoredValue("isKeyLabelHidden", true);
-let keySize = getStoredValue("keySize", 60);
+let currentVolume = load("currentVolume", 1);
+let isKeyLabelHidden = load("isKeyLabelHidden", true);
+let keySize = load("keySize", 60);
 
-function getStoredValue(key, defaultValue) {
-  const stored = localStorage.getItem(`${projectName}_${key}`);
+function save(key, value) {
+  localStorage.setItem(`${projectName}_${key}`, JSON.stringify(value));
+}
 
-  if (stored == null) return defaultValue;
-
-  return JSON.parse(stored);
+function load(key, defaultValue) {
+  const savedValue = localStorage.getItem(`${projectName}_${key}`);
+  if (savedValue == null) return defaultValue;
+  return JSON.parse(savedValue);
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -50,9 +52,10 @@ function displayPiano() {
   piano.classList.toggle("hidden-label", !isKeyLabelHidden);
 }
 
-function getNoteName(index) {
+function getNoteName(index, includeOctave = true) {
   const noteNames = ["A", "A♯", "B", "C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯"];
-  const octave = Math.floor((21 + index) / 12) - 1;
+  
+  const octave = includeOctave ? Math.floor((21 + index) / 12) - 1 : ""
   const keyName = noteNames[index % 12] + octave;
   return keyName;
 }
@@ -61,30 +64,29 @@ function playNote(index) {
   const audio = new Audio(`assets/audio/notes/${index + 1}.mp3`);
   audio.volume = currentVolume;
   audio.play();
-
   MusicSheet.play(index);
 }
 
 function changeVolume(value) {
   currentVolume = value;
-  localStorage.setItem(`${projectName}_currentVolume`, currentVolume);
+  save("currentVolume", currentVolume);
 }
 
 function toggleKeyLabel(state) {
   isKeyLabelHidden = state;
   piano.classList.toggle("hidden-label", !isKeyLabelHidden);
-  localStorage.setItem(`${projectName}_isKeyLabelHidden`, isKeyLabelHidden);
+  save("isKeyLabelHidden", isKeyLabelHidden);
 }
 
 function changeKeySize(value) {
   keySize = parseInt(value);
-  localStorage.setItem(`${projectName}_keySize`, keySize);
+  save("keySize", keySize);
   displayPiano();
 }
 
 document.addEventListener("keydown", function (event) {
   if (event.code === "Space") {
     event.preventDefault();
-    MusicSheet.skip(playNote)
+    MusicSheet.skip();
   }
-})
+});

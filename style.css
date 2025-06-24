@@ -14,6 +14,7 @@
   --blue: #3f51b5;
   --purple: #673ab7;
   --lightblue: #2196f3;
+  --background: linear-gradient(to bottom right, #197fff, #ca1fff);
 }
 
 .dark-theme {
@@ -92,7 +93,7 @@ body {
   width: 100%;
   padding: 15px 10px;
   text-align: center;
-  background-color: var(--purple);
+  background: var(--background);
 }
 
 .header .title {
@@ -140,8 +141,9 @@ main {
   color: #333;
 }
 
-.music-sheet .page .item.active {
-  background-color: var(--label-color);
+.music-sheet .page .item.active, .music-sheet .page .item:active {
+  background: var(--background);
+  color: white;
 }
 
 .settings {
@@ -179,7 +181,7 @@ main {
 
 .piano .key:active {
   top: 8px;
-  background: linear-gradient(to bottom right, #197fff, #ca1fff);
+  background: var(--background);
 }
 
 .piano .white {
